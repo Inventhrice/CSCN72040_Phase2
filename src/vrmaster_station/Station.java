@@ -4,7 +4,7 @@ public class Station extends Bookable
 {
     Station()
     {
-        available = false;
+        available = true;
     }
     
     public Station(int id, boolean avail)

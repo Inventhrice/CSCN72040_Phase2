@@ -4,7 +4,7 @@ public class PartyRoom extends Bookable
 {
     PartyRoom()
     {
-        available = false;
+        available = true;
     }
 
     @Override
