@@ -17,13 +17,13 @@ public class Branch extends Company {
 	}
 	
 	public Branch(String companyName, Address address) {
-		companyName = new String(companyName);
+		this.companyName = companyName;
 		this.address = address;
 		timetable = new ArrayList<BookingInfo>();
 	}
 	
 	public Branch(String companyName, Address address, ArrayList<BookingInfo> timetable) {
-		companyName = new String(companyName);
+		this.companyName = companyName;
 		this.address = address;
 		this.timetable = timetable;
 	}
