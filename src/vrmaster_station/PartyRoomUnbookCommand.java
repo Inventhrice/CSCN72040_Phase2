@@ -3,12 +3,7 @@ public class PartyRoomUnbookCommand implements Command
 {
     private PartyRoom room;
 
-    PartyRoomUnbookCommand(PartyRoom newRoom)
-    {
-        this.room = newRoom;
-    }
-    
-    public void setRoom(PartyRoom newRoom)
+    public PartyRoomUnbookCommand(PartyRoom newRoom)
     {
         this.room = newRoom;
     }

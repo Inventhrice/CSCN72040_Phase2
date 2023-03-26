@@ -3,12 +3,7 @@ public class StationUnbookCommand implements Command
 {
     private Station station;
 
-    StationUnbookCommand(Station newStation)
-    {
-        this.station = newStation;
-    }
-
-    public void setStation(Station newStation) 
+    public StationUnbookCommand(Station newStation)
     {
         this.station = newStation;
     }

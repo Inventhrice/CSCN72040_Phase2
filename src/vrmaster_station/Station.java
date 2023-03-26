@@ -16,13 +16,13 @@ public class Station extends Bookable
     @Override
     public void book() 
     {
-        available = true;
+        available = false;
     }
 
     @Override
     public void unbook() 
     {
-        available = false;
+        available = true;
     }
 
     public boolean getAvailability()

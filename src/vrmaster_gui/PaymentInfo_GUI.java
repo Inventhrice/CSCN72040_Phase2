@@ -11,6 +11,11 @@ import javax.swing.JTextField;
 
 import vrmaster_database.BookingInfo;
 import vrmaster_database.Database;
+import vrmaster_station.Command;
+import vrmaster_station.PartyRoom;
+import vrmaster_station.PartyRoomBookCommand;
+import vrmaster_station.Station;
+import vrmaster_station.StationBookCommand;
 import vrmaster_user.PaymentInfo;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -38,18 +43,20 @@ public class PaymentInfo_GUI extends Window {
 	 */
 	private void initialize(Database db, int branchIndex, BookingInfo order) {
 		JPanel bodyPanel = new JPanel();
+		int employee = -1;
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
-		//bodyPanel.setLayout(new BoxLayout(bodyPanel, BoxLayout.Y_AXIS));
+		bodyPanel.setLayout(new BoxLayout(bodyPanel, BoxLayout.Y_AXIS));
 		
 		JLabel enterEmail = new JLabel("Enter your email:");
 		bodyPanel.add(enterEmail);
+			
 		JTextField emailField = new JTextField("example@domain.com");
 		bodyPanel.add(emailField);
 		// email
 		
 		JLabel enterCC = new JLabel("Enter your credit card number:");
 		bodyPanel.add(enterCC);
-		JTextField CCField = new JTextField("1234 5678 9012 3456");
+		JTextField CCField = new JTextField("1234567890123456");
 		bodyPanel.add(CCField);
 		
 		JLabel enterSecCode = new JLabel("Enter your security code:");
@@ -60,21 +67,40 @@ public class PaymentInfo_GUI extends Window {
 		Checkbox checkbox = new Checkbox("Are you an employee?");
 		checkbox.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		bodyPanel.add(checkbox);
-		// security code
 		
-		//display the total
+		if(checkbox.getState()) {
+			JLabel enterEmployeeNum = new JLabel("Enter your security code:");
+			bodyPanel.add(enterEmployeeNum);
+			JTextField empNum = new JTextField("000");
+			bodyPanel.add(empNum);
+			employee = Integer.parseInt(SecField.getText().substring(0, 3));
+		}
+		
+		
+		//total
+		
 		
 		JButton proceedButton = new JButton("Continue");
 		proceedButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String ccString = "";
 				int secNum;
-				if(CCField.getText().substring(0, 16).replaceAll("\\d*", "") == "")	ccString = CCField.getText().substring(0, 16);
+				
+				if(CCField.getText().substring(0, 16).replaceAll("\\d", "") == "") ccString = CCField.getText().substring(0, 16);
 				secNum = Integer.parseInt(SecField.getText().substring(0, 3));
+				
 				PaymentInfo payment = new PaymentInfo(ccString, secNum);
 				Customer u = new Customer(payment, emailField.getText());
-				if(u.pay()) db.allBranches.get(branchIndex).addBooking(order);
+				
+				if(u.pay()) {
+					Command bookCommand;
+					if(order.getRoom() instanceof Station) bookCommand = new StationBookCommand((Station)order.getRoom());
+					else bookCommand = new PartyRoomBookCommand((PartyRoom)order.getRoom());
+					bookCommand.execute();
+				}
+				
 			}
 		});
+		bodyPanel.add(proceedButton);
 	}
 }
