@@ -105,8 +105,6 @@ public class BookingPage1 extends Window{
 		});
 		bodyPanel.add(compChoice);
 		
-		
-		
 		JButton proceedButton = new JButton("Continue");
 		proceedButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

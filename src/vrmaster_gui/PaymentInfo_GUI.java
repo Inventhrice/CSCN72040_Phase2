@@ -41,8 +41,6 @@ public class PaymentInfo_GUI extends Window {
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
 		//bodyPanel.setLayout(new BoxLayout(bodyPanel, BoxLayout.Y_AXIS));
 		
-		
-		
 		JLabel enterEmail = new JLabel("Enter your email:");
 		bodyPanel.add(enterEmail);
 		JTextField emailField = new JTextField("example@domain.com");
@@ -64,9 +62,6 @@ public class PaymentInfo_GUI extends Window {
 		bodyPanel.add(checkbox);
 		// security code
 		
-		//JLabel isEmployee = new JLabel();
-		//bodyPanel.add(isEmployee);
-		
 		//display the total
 		
 		JButton proceedButton = new JButton("Continue");
@@ -79,10 +74,7 @@ public class PaymentInfo_GUI extends Window {
 				PaymentInfo payment = new PaymentInfo(ccString, secNum);
 				Customer u = new Customer(payment, emailField.getText());
 				if(u.pay()) db.allBranches.get(branchIndex).addBooking(order);
-				
 			}
 		});
-		
-
 	}
 }
