@@ -79,7 +79,8 @@ public class BookingPage1 extends Window{
 		bodyPanel.add(cityChoice);
 		
 		list.clear();
-		
+
+		ArrayList<String> compList = new ArrayList<String>();
 		JLabel chooseComp = new JLabel("Choose the company:");
 		bodyPanel.add(chooseComp);
 		
@@ -94,12 +95,12 @@ public class BookingPage1 extends Window{
 					
 					if(tempBranch.getAddress().getProvince() == provinceChoice.getSelectedItem() && 
 							tempBranch.getAddress().getCity() == cityChoice.getSelectedItem()) {
-						if(!list.contains(tempBranch.getCompanyName())) list.add(tempBranch.getCompanyName()); 
+						if(!compList.contains(tempBranch.getCompanyName())) compList.add(tempBranch.getCompanyName()); 
 					}
 				}
 				
 				compChoice.add("Choose arcade...");
-				for(int i = 0; i < list.size();i++) compChoice.add(list.get(i));
+				for(int i = 0; i < compList.size();i++) compChoice.add(compList.get(i));
 			}
 		});
 		bodyPanel.add(compChoice);
@@ -112,13 +113,14 @@ public class BookingPage1 extends Window{
 				boolean found = false;
 				int i = 0;
 				Branch tempBranch;
-				for(; i<db.allBranches.size() && !found;i++) {
+				while(i < db.allBranches.size() && !found) {
 					tempBranch = db.allBranches.get(i);
 					found =  tempBranch.getAddress().getProvince() == provinceChoice.getSelectedItem()
 							&& tempBranch.getAddress().getCity() == cityChoice.getSelectedItem()
 							&& tempBranch.getCompanyName() == compChoice.getSelectedItem(); 
+					if(!found) i++;
 				}
-				
+				System.out.println(i);
 				frame.setVisible(false);
 				new BookingPage2(db, i);
 			}

@@ -13,7 +13,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new PaymentInfo_GUI(db, 0, null);
+					new Homepage(db);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

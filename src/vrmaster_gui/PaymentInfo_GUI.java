@@ -1,5 +1,7 @@
 package vrmaster_gui;
 
+import vrmaster_user.*;
+
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -9,9 +11,7 @@ import javax.swing.JTextField;
 
 import vrmaster_database.BookingInfo;
 import vrmaster_database.Database;
-import vrmaster_user.Customer;
 import vrmaster_user.PaymentInfo;
-import vrmaster_user.User;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -85,5 +85,4 @@ public class PaymentInfo_GUI extends Window {
 		
 
 	}
-
 }

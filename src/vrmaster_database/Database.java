@@ -17,10 +17,11 @@ public class Database {
 		allVRMasterEmployees = new ArrayList<Employee>();
 		
 		allBranches.add(new Branch("Ctrl-V", new Address("212 Victoria Rd S Unit A", "Guelph", "Ontario", "N1E5R1")));
-		
+
 		allVRMasterEmployees.add(new Employee(new PaymentInfo("1111 2222 3333 4444", 208),
 				"202@VRMaster.ca", 2, new EmployeeDiscount(20)));
-		
+	
+		initTimetable();
 	}
 	
 	public void initTimetable() {
