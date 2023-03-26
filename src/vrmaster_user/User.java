@@ -3,5 +3,8 @@ package vrmaster_user;
 public abstract class User {
  PaymentInfo payment;
  String email;
- abstract Boolean pay();
+ abstract public PaymentInfo getPayment();
+ abstract public String getEmail();
+ abstract public Boolean pay();
+ abstract public Boolean equals(User u);
 }

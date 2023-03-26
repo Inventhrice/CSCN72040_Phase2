@@ -21,4 +21,8 @@ public class PaymentInfo {
 	public void setSecurityCode(int secNum) {
 		this.securityCode = secNum;
 	}
+	
+	public boolean equals(PaymentInfo pay) {
+		return this.cardNum == pay.getCardNum() && this.securityCode == pay.getSecurityCode();
+	}
 }

@@ -28,16 +28,21 @@ public class Branch extends Company {
 		this.timetable = timetable;
 	}
 	
-	public Boolean addBooking(int RoomNumber, int price, Bookable newResource, User newUser) {
+	public Boolean addBooking(BookingInfo toAdd) {
 		boolean temp = true;
 		
 		for(int i = 0; i < timetable.size(); i++) {
-			if(timetable.get(i).getBook().getId() == RoomNumber) {
-				if(timetable.get(i).getBook().getAvailability()) {
+			
+			tempBookingInfo = timetable.get(i).getBook();
+			
+			if(tempBookingInfo.getId() == RoomNumber) {
+			
+				if(tempBookingInfo.getAvailability()) {
 					timetable.add(new BookingInfo(price, newResource, newUser));
 					timetable.get(timetable.size()).getBook().setAvailability(false);
 					timetable.get(timetable.size()).getBook().setId(RoomNumber);
 				}
+				
 				else {
 					temp = false;
 				}

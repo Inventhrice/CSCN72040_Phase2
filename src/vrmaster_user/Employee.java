@@ -12,8 +12,40 @@ public class Employee extends User{
 		this.discount = discount;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public EmployeeDiscount getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(EmployeeDiscount discount) {
+		this.discount = discount;
+	}
+
 	@Override
-	Boolean pay() {
+	public PaymentInfo getPayment() {
+		return payment;
+	}
+	
+	@Override
+	public Boolean pay() {
 		return true;
+	}
+	
+	@Override
+	public Boolean equals(User u) {
+		if(u instanceof Employee) return this.id == ((Employee) u).getId();
+		else return false;
+	}
+
+	@Override
+	public String getEmail() {
+		return this.email;
 	}
 }

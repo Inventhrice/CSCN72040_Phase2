@@ -59,4 +59,9 @@ public class BookingInfo{
 	public void setBook(Bookable book) {
 		this.resource = book;
 	}
+	
+	public boolean equals(BookingInfo b) {
+		return this.price == b.getPrice() && this.bookingDateTime == b.getBookingDateTime() &&
+				bookedBy.equals(b.getBookedBy()) && resource.equals(b.getBookedBy());
+	}
 }
