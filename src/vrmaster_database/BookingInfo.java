@@ -60,8 +60,13 @@ public class BookingInfo{
 		this.resource = book;
 	}
 	
-	public boolean equals(BookingInfo b) {
-		return this.price == b.getPrice() && this.bookingDateTime == b.getBookingDateTime() &&
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof BookingInfo) {
+			BookingInfo b = (BookingInfo) o;
+			return this.price == b.getPrice() && this.bookingDateTime == b.getBookingDateTime() &&
 				bookedBy.equals(b.getBookedBy()) && resource.equals(b.getBookedBy());
+		}
+		else return false;
 	}
 }

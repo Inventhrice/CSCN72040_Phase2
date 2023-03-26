@@ -44,7 +44,10 @@ public class PartyRoom extends Bookable
     @Override
     public boolean equals(Object o)
     {
-        PartyRoom s = (PartyRoom) o;
-        return this.id == s.id && this.available == s.available;
+    	if(o instanceof PartyRoom) {
+    		PartyRoom s = (PartyRoom) o;
+            return this.id == s.id && this.available == s.available;
+        }
+        else return false;
     }
 }

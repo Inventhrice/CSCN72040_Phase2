@@ -44,7 +44,10 @@ public class Station extends Bookable
     @Override
     public boolean equals(Object o)
     {
-        Station s = (Station) o;
-        return this.id == s.id && this.available == s.available;
+        if(o instanceof Station) {
+        	Station s = (Station) o;
+            return this.id == s.id && this.available == s.available;
+        }
+        else return false;
     }
 }

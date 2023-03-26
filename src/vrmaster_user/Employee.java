@@ -39,7 +39,7 @@ public class Employee extends User{
 	}
 	
 	@Override
-	public Boolean equals(User u) {
+	public boolean equals(Object u) {
 		if(u instanceof Employee) return this.id == ((Employee) u).getId();
 		else return false;
 	}
