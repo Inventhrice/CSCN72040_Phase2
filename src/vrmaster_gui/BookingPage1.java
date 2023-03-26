@@ -3,6 +3,11 @@ package vrmaster_gui;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import vrmaster_database.Address;
+import vrmaster_database.Branch;
+import vrmaster_database.Database;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -18,9 +23,9 @@ public class BookingPage1 extends Window{
 	/**
 	 * Create the application.
 	 */
-	public BookingPage1() {
-		initHeader("VR Master - Book a Station", new Dimension(150, 10));
-		initialize();
+	public BookingPage1(Database db) {
+		initHeader("VR Master - Book a Station", new Dimension(150, 10), db);
+		initialize(db);
 		initFinal();
 	}
 
@@ -28,7 +33,7 @@ public class BookingPage1 extends Window{
 	 * Initialize the contents of the frame.
 	 * @wbp.parser.entryPoint
 	 */
-	private void initialize() {
+	private void initialize(Database db) {
 		JPanel bodyPanel = new JPanel();
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
 		bodyPanel.setLayout(new BoxLayout(bodyPanel, BoxLayout.Y_AXIS));
@@ -36,27 +41,21 @@ public class BookingPage1 extends Window{
 		JLabel chooseProvince = new JLabel("Choose your province:");
 		bodyPanel.add(chooseProvince);
 		
-		ArrayList<String> listProvinces = new ArrayList<String>();
+		Choice provinceChoice = new Choice();
+		provinceChoice.add("Choose province...");
 		
-		listProvinces.add("Choose province...");
-		listProvinces.add("Alberta");
-		listProvinces.add("Alberta");
-		listProvinces.add("Manitoba");
-		listProvinces.add("New Brunswick");	
-		listProvinces.add("Newfoundland and Labrador");
-		listProvinces.add("Northwest Territories");
-		listProvinces.add("Nova Scotia");
-		listProvinces.add("Nunavut");
-		listProvinces.add("Ontario");
-		listProvinces.add("Prince Edward Island");
-		listProvinces.add("Quebec");
-		listProvinces.add("Saskatchewan");
-		listProvinces.add("Yukon");
+		ArrayList<String> list = new ArrayList<String>();
+		Address tempAddr;
 		
-		Choice provinceChoice= new Choice();
+		for(int i = 0; i < db.allBranches.size(); i++) {
+			tempAddr = db.allBranches.get(i).getAddress();
+			if(!list.contains(tempAddr.getProvince()))list.add(tempAddr.getProvince());
+		}
 		
+		for(int i = 0; i < list.size(); i++) provinceChoice.add(list.get(i));
 		bodyPanel.add(provinceChoice);
 		
+		list.clear();
 		JLabel chooseCity = new JLabel("Choose your city: ");
 		bodyPanel.add(chooseCity);
 		
@@ -64,20 +63,22 @@ public class BookingPage1 extends Window{
 		provinceChoice.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if(provinceChoice.getSelectedItem() == "Ontario") {
-					cityChoice.add("Choose city...");
-					cityChoice.add("Guelph");
-					cityChoice.add("Kitchener");
-					cityChoice.add("Waterloo");
+				Address tempAddr;
+				cityChoice.removeAll();
+				for(int i = 0; i < db.allBranches.size(); i++) {
+					tempAddr = db.allBranches.get(i).getAddress();
+					if(tempAddr.getProvince() == provinceChoice.getSelectedItem()) {
+						if(!list.contains(tempAddr.getCity())) list.add(tempAddr.getCity()); 
+					}
 				}
-				else {
-					cityChoice.removeAll();
-					cityChoice.add("Choose city...");
-				}
+				
+				cityChoice.add("Choose city...");
+				for(int i = 0; i<list.size();i++)cityChoice.add(list.get(i));
 			}
 		});
 		bodyPanel.add(cityChoice);
 		
+		list.clear();
 		JLabel chooseComp = new JLabel("Choose the company:");
 		bodyPanel.add(chooseComp);
 		
@@ -85,14 +86,19 @@ public class BookingPage1 extends Window{
 		cityChoice.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if(cityChoice.getSelectedItem() == "Guelph") {
-					compChoice.add("Choose arcade...");
-					compChoice.add("Ctrl-V");
+				compChoice.removeAll();
+				Branch tempBranch;
+				for(int i = 0; i < db.allBranches.size(); i++) {
+					tempBranch = db.allBranches.get(i); 
+					
+					if(tempBranch.getAddress().getProvince() == provinceChoice.getSelectedItem() && 
+							tempBranch.getAddress().getCity() == cityChoice.getSelectedItem()) {
+						if(!list.contains(tempBranch.getCompanyName())) list.add(tempBranch.getCompanyName()); 
+					}
 				}
-				else {
-					compChoice.removeAll();
-					compChoice.add("Choose arcade...");
-				}
+				
+				compChoice.add("Choose arcade...");
+				for(int i = 0; i < list.size();i++) compChoice.add(list.get(i));
 			}
 		});
 		bodyPanel.add(compChoice);
@@ -106,7 +112,7 @@ public class BookingPage1 extends Window{
 							cityChoice.getSelectedItem() == "Guelph" &&
 							compChoice.getSelectedItem() == "Ctrl-V") {
 						frame.setVisible(false);
-						new BookingPage2();
+						new BookingPage2(db);
 					}
 				}
 		});

@@ -3,6 +3,9 @@ package vrmaster_gui;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import vrmaster_database.Database;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -14,9 +17,9 @@ public class BookingPage2 extends Window{
 	/**
 	 * Create the application.
 	 */
-	public BookingPage2() {
-		initHeader("VR Master - Choose type of Room", new Dimension(50, 10));
-		initialize();
+	public BookingPage2(Database db) {
+		initHeader("VR Master - Choose type of Room", new Dimension(50, 10), db);
+		initialize(db);
 		initFinal();
 	}
 
@@ -24,7 +27,7 @@ public class BookingPage2 extends Window{
 	 * Initialize the contents of the frame.
 	 * @wbp.parser.entryPoint
 	 */
-	private void initialize() {
+	private void initialize(Database db) {
 		
 		JPanel bodyPanel = new JPanel();
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
@@ -37,7 +40,7 @@ public class BookingPage2 extends Window{
 		btnIndividual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new BookingPage3(false);
+				new BookingPage3(false, db);
 			}
 		});
 		
@@ -45,7 +48,7 @@ public class BookingPage2 extends Window{
 		btnGroup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new BookingPage3(true);
+				new BookingPage3(true, db);
 			}
 		});
 		

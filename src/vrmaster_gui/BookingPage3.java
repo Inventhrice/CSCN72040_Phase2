@@ -5,6 +5,9 @@ import java.awt.Choice;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import vrmaster_database.Database;
+
 import java.awt.Dimension;
 
 public class BookingPage3 extends Window {
@@ -12,10 +15,10 @@ public class BookingPage3 extends Window {
 	/**
 	 * Create the application.
 	 */
-	public BookingPage3(boolean isGroup) {
-		initHeader("VR Master - Booking", new Dimension(200, 10));
+	public BookingPage3(boolean isGroup, Database db) {
+		initHeader("VR Master - Booking", new Dimension(200, 10), db);
 		this.isGroup = isGroup;
-		initialize();
+		initialize(db);
 		initFinal();
 	}
 
@@ -23,7 +26,7 @@ public class BookingPage3 extends Window {
 	 * Initialize the contents of the frame.
 	 * @wbp.parser.entryPoint
 	 */
-	private void initialize() {
+	private void initialize(Database db) {
 		JPanel bodyPanel = new JPanel();
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
 		

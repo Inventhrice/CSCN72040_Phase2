@@ -2,6 +2,9 @@ package vrmaster_gui;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+
+import vrmaster_database.Database;
+
 import java.awt.Dimension;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -12,9 +15,9 @@ public class Homepage extends Window {
 	/**
 	 * Create the application.
 	 */
-	public Homepage() {
-		initHeader("VR Master - Home", new Dimension(200, 10));
-		initialize();
+	public Homepage(Database db) {
+		initHeader("VR Master - Home", new Dimension(200, 10), db);
+		initialize(db);
 		initFinal();
 	}
 
@@ -22,7 +25,7 @@ public class Homepage extends Window {
 	 * Initialize the contents of the frame.
 	 * @wbp.parser.entryPoint
 	 */
-	private void initialize() {
+	private void initialize(Database db) {
 		JPanel bodyPanel = new JPanel();
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
 		
@@ -30,7 +33,7 @@ public class Homepage extends Window {
 		bookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new BookingPage1();
+				new BookingPage1(db);
 			}
 		});
 		bodyPanel.add(bookButton);
@@ -39,7 +42,7 @@ public class Homepage extends Window {
 		aboutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new About();
+				new About(db);
 			}
 		});
 		bodyPanel.add(aboutButton);
@@ -48,7 +51,7 @@ public class Homepage extends Window {
 		Rates.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new Rates();
+				new Rates(db);
 			}
 		});
 		bodyPanel.add(Rates);

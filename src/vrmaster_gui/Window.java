@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.UIManager;
+
+import vrmaster_database.Database;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +19,7 @@ import javax.swing.SwingConstants;
 public class Window {
 	public JFrame frame;
 	
-	protected void initHeader(String headername, Dimension paddingSize) {
+	protected void initHeader(String headername, Dimension paddingSize, Database db) {
 		frame = new JFrame();
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
@@ -32,7 +35,7 @@ public class Window {
 		btnGoBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new Homepage();
+				new Homepage(db);
 			}
 		});
 		

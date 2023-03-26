@@ -6,17 +6,17 @@ public class Address {
 	private String city;
 	
 	public Address() {
-		streetAddress = new String("");
-		province = new String("");
-		zipCode = new String("");
-		setCity(new String(""));
+		streetAddress = "";
+		province = "";
+		zipCode = "";
+		setCity("");
 	}
 	
-	public Address(String streetAddress, String province, String zipCode, String city) {
-		this.streetAddress = new String(streetAddress);
-		this.province = new String(province);
-		this.zipCode = new String(zipCode);
-		this.setCity(new String(city));
+	public Address(String streetAddress, String city, String province, String zipCode) {
+		this.streetAddress = streetAddress;
+		this.province = province;
+		this.zipCode = zipCode;
+		this.setCity(city);
 	}
 	
 	public String getStreetAddress() {

@@ -2,6 +2,9 @@ package vrmaster_gui;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+
+import vrmaster_database.Database;
+
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
 
@@ -10,8 +13,8 @@ public class Rates extends Window{
 	/**
 	 * Create the application.
 	 */
-	public Rates() {
-		initHeader("VR Master - Rates", new Dimension(200, 10));
+	public Rates(Database db) {
+		initHeader("VR Master - Rates", new Dimension(200, 10), db);
 		initialize();
 		initFinal();
 	}

@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+
+import vrmaster_database.Database;
+
 import java.awt.Dimension;
 
 public class About extends Window {
@@ -11,10 +14,11 @@ public class About extends Window {
 	/**
 	 * Create the application.
 	 */
-	public About() {
-		initHeader("VR Master - About", new Dimension(200, 10));
+	public About(Database db) {
+		initHeader("VR Master - About", new Dimension(200, 10), db);
 		initialize();
-		initFinal();	}
+		initFinal();	
+	}
 
 	/**
 	 * Initialize the contents of the frame.
