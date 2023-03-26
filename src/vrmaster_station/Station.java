@@ -6,6 +6,12 @@ public class Station extends Bookable
     {
         available = false;
     }
+    
+    public Station(int id, boolean avail)
+    {
+        this.id = id;
+    	available = avail;
+    }
 
     @Override
     public void book() 
