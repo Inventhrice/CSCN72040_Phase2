@@ -79,6 +79,7 @@ public class BookingPage1 extends Window{
 		bodyPanel.add(cityChoice);
 		
 		list.clear();
+		
 		JLabel chooseComp = new JLabel("Choose the company:");
 		bodyPanel.add(chooseComp);
 		
@@ -108,13 +109,19 @@ public class BookingPage1 extends Window{
 		JButton proceedButton = new JButton("Continue");
 		proceedButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					if(provinceChoice.getSelectedItem() == "Ontario" && 
-							cityChoice.getSelectedItem() == "Guelph" &&
-							compChoice.getSelectedItem() == "Ctrl-V") {
-						frame.setVisible(false);
-						new BookingPage2(db);
-					}
+				boolean found = false;
+				int i = 0;
+				Branch tempBranch;
+				for(; i<db.allBranches.size() && !found;i++) {
+					tempBranch = db.allBranches.get(i);
+					found =  tempBranch.getAddress().getProvince() == provinceChoice.getSelectedItem()
+							&& tempBranch.getAddress().getCity() == cityChoice.getSelectedItem()
+							&& tempBranch.getCompanyName() == compChoice.getSelectedItem(); 
 				}
+				
+				frame.setVisible(false);
+				new BookingPage2(db, i);
+			}
 		});
 		bodyPanel.add(proceedButton);
 	}

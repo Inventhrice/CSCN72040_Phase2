@@ -15,10 +15,10 @@ public class BookingPage3 extends Window {
 	/**
 	 * Create the application.
 	 */
-	public BookingPage3(boolean isGroup, Database db) {
+	public BookingPage3(boolean isGroup, Database db, int branchIndex) {
 		initHeader("VR Master - Booking", new Dimension(200, 10), db);
 		this.isGroup = isGroup;
-		initialize(db);
+		initialize(db, branchIndex);
 		initFinal();
 	}
 
@@ -26,7 +26,7 @@ public class BookingPage3 extends Window {
 	 * Initialize the contents of the frame.
 	 * @wbp.parser.entryPoint
 	 */
-	private void initialize(Database db) {
+	private void initialize(Database db, int branchIndex) {
 		JPanel bodyPanel = new JPanel();
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
 		

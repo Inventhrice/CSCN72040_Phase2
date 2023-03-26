@@ -17,9 +17,9 @@ public class BookingPage2 extends Window{
 	/**
 	 * Create the application.
 	 */
-	public BookingPage2(Database db) {
+	public BookingPage2(Database db, int branchIndex) {
 		initHeader("VR Master - Choose type of Room", new Dimension(50, 10), db);
-		initialize(db);
+		initialize(db, branchIndex);
 		initFinal();
 	}
 
@@ -27,7 +27,7 @@ public class BookingPage2 extends Window{
 	 * Initialize the contents of the frame.
 	 * @wbp.parser.entryPoint
 	 */
-	private void initialize(Database db) {
+	private void initialize(Database db, int branchIndex) {
 		
 		JPanel bodyPanel = new JPanel();
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
@@ -40,7 +40,7 @@ public class BookingPage2 extends Window{
 		btnIndividual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new BookingPage3(false, db);
+				new BookingPage3(false, db, branchIndex);
 			}
 		});
 		
@@ -48,7 +48,7 @@ public class BookingPage2 extends Window{
 		btnGroup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				new BookingPage3(true, db);
+				new BookingPage3(true, db, branchIndex);
 			}
 		});
 		
