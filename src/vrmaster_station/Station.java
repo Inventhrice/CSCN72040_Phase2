@@ -41,4 +41,10 @@ public class Station extends Bookable
     {
         return id;
     }
+    @Override
+    public boolean equals(Object o)
+    {
+        Station s = (Station) o;
+        return this.id == s.id && this.available == s.available;
+    }
 }

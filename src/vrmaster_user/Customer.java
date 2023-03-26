@@ -18,8 +18,8 @@ public class Customer extends User {
 		return email;
 	}
 	@Override
-	public Boolean equals(User u) {
-		if(u instanceof Customer) return this.email == u.getEmail();
+	public boolean equals(Object u) {
+		if(u instanceof Customer) return this.email == ((Customer) u).getEmail();
 		else return false;
 	}
 	

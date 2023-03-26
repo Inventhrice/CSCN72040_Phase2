@@ -6,5 +6,4 @@ public abstract class User {
  abstract public PaymentInfo getPayment();
  abstract public String getEmail();
  abstract public Boolean pay();
- abstract public Boolean equals(User u);
 }
