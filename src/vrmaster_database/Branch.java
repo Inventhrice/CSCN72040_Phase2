@@ -29,36 +29,13 @@ public class Branch extends Company {
 	}
 	
 	public Boolean addBooking(BookingInfo toAdd) {
-		boolean temp = true;
-		
-		for(int i = 0; i < timetable.size(); i++) {
-			
-			tempBookingInfo = timetable.get(i).getBook();
-			
-			if(tempBookingInfo.getId() == RoomNumber) {
-			
-				if(tempBookingInfo.getAvailability()) {
-					timetable.add(new BookingInfo(price, newResource, newUser));
-					timetable.get(timetable.size()).getBook().setAvailability(false);
-					timetable.get(timetable.size()).getBook().setId(RoomNumber);
-				}
-				
-				else {
-					temp = false;
-				}
-			}
+		if(timetable.contains(toAdd)) return false;
+		else {
+			timetable.add(toAdd);
+			return true;
 		}
 		
-		return temp;
 	}
-	
-	/*
-	public ArrayList<BookingInfo> getUserBookings(User newUser) {
-		
-		
-		return 
-	}
-	*/
 	
 	public String getCompanyName() {
 		return companyName;

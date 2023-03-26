@@ -7,21 +7,21 @@ import vrmaster_user.User;
 public class BookingInfo{
 	private int price;
 	private LocalDateTime bookingDateTime;
-	private Bookable resource;
-	private User bookedBy;
+	private Bookable room;
+	private User user;
 	
 	public BookingInfo() {
 		price = 0;
 		bookingDateTime = null;
-		resource = null;
-		bookedBy = null;
+		room = null;
+		user = null;
 	}
 	
 	public BookingInfo(int price, Bookable newResource, User newUser) {
 		this.price = price;
 		bookingDateTime = null;
-		resource = newResource;
-		bookedBy = newUser;
+		room = newResource;
+		user = newUser;
 	}
 	
 	public void displayInfo() {
@@ -44,20 +44,20 @@ public class BookingInfo{
 		this.bookingDateTime = bookingDateTime;
 	}
 
-	public User getBookedBy() {
-		return bookedBy;
+	public User getUser() {
+		return user;
 	}
 
-	public void setBookedBy(User bookedBy) {
-		this.bookedBy = bookedBy;
+	public void setUser(User bookedBy) {
+		this.user = bookedBy;
 	}
 
-	public Bookable getBook() {
-		return resource;
+	public Bookable getRoom() {
+		return room;
 	}
 
-	public void setBook(Bookable book) {
-		this.resource = book;
+	public void setRoom(Bookable book) {
+		this.room = book;
 	}
 	
 	@Override
@@ -65,7 +65,7 @@ public class BookingInfo{
 		if(o instanceof BookingInfo) {
 			BookingInfo b = (BookingInfo) o;
 			return this.price == b.getPrice() && this.bookingDateTime == b.getBookingDateTime() &&
-				bookedBy.equals(b.getBookedBy()) && resource.equals(b.getBookedBy());
+				user.equals(b.getUser()) && room.equals(b.getRoom());
 		}
 		else return false;
 	}
