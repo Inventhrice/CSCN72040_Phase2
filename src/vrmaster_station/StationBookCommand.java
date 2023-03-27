@@ -3,12 +3,7 @@ public class StationBookCommand implements Command
 {
     private Station station;
 
-    StationBookCommand(Station newStation)
-    {
-        station = newStation;
-    }
-
-    public void setStation(Station newStation) 
+    public StationBookCommand(Station newStation)
     {
         station = newStation;
     }

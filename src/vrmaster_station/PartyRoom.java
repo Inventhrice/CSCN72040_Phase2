@@ -4,19 +4,19 @@ public class PartyRoom extends Bookable
 {
     PartyRoom()
     {
-        available = false;
+        available = true;
     }
 
     @Override
     public void book() 
     {
-        available = true;
+        available = false;
     }
 
     @Override
     public void unbook() 
     {
-        available = false;
+        available = true;
     }
 
     public boolean getAvailability()
