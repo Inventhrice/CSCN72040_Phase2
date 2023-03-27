@@ -21,6 +21,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.Checkbox;
 
 public class PaymentInfo_GUI extends Window {
@@ -43,7 +45,7 @@ public class PaymentInfo_GUI extends Window {
 	 */
 	private void initialize(Database db, int branchIndex, BookingInfo order) {
 		JPanel bodyPanel = new JPanel();
-		int employee = -1;
+		int employeeID = -1;
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
 		bodyPanel.setLayout(new BoxLayout(bodyPanel, BoxLayout.Y_AXIS));
 		
@@ -64,22 +66,30 @@ public class PaymentInfo_GUI extends Window {
 		JTextField SecField = new JTextField("111");
 		bodyPanel.add(SecField);
 		
-		Checkbox checkbox = new Checkbox("Are you an employee?");
-		checkbox.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		bodyPanel.add(checkbox);
+		Employee employee = null;
+		JLabel enterEmployeeNum = new JLabel("Enter your employee number (-1 if you are not an employee):");
+		bodyPanel.add(enterEmployeeNum);
+		JTextField empNum = new JTextField("00");
+		bodyPanel.add(empNum);
 		
-		if(checkbox.getState()) {
-			JLabel enterEmployeeNum = new JLabel("Enter your security code:");
-			bodyPanel.add(enterEmployeeNum);
-			JTextField empNum = new JTextField("000");
-			bodyPanel.add(empNum);
-			employee = Integer.parseInt(SecField.getText().substring(0, 3));
+		employeeID = Integer.parseInt(SecField.getText().substring(0, 2));
+		
+		if(employeeID != -1) {
+			boolean found = false;
+			for(int i = 0; i < db.allVRMasterEmployees.size() && !found; i++) {
+				employee = db.allVRMasterEmployees.get(i);
+				found = employee.getId() == employeeID;
+			}
+			if(!found) employeeID = -1;
 		}
 		
-		
-		//total
-		
-		
+		bodyPanel.add(new JLabel("Subtotal:\t $" + order.getPrice()));
+		if(employeeID != -1) {
+			bodyPanel.add(new JLabel("Discount:\t-$" +  (order.getPrice() - employee.getDiscount().applyDiscount(order.getPrice()))));
+			order.setPrice(employee.getDiscount().applyDiscount(order.getPrice()));
+		}
+		bodyPanel.add(new JLabel("Total:\t $" + order.getPrice()));
+				
 		JButton proceedButton = new JButton("Continue");
 		proceedButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

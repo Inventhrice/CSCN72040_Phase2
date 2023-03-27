@@ -5,7 +5,7 @@ import vrmaster_station.Bookable;
 import vrmaster_user.User;
 
 public class BookingInfo{
-	private int price;
+	private double price;
 	private LocalDateTime bookingDateTime;
 	private Bookable room;
 	private User user;
@@ -17,7 +17,7 @@ public class BookingInfo{
 		user = null;
 	}
 	
-	public BookingInfo(int price, Bookable newResource, User newUser) {
+	public BookingInfo(double price, Bookable newResource, User newUser) {
 		this.price = price;
 		bookingDateTime = null;
 		room = newResource;
@@ -28,11 +28,11 @@ public class BookingInfo{
 		System.out.println(price + ", " + bookingDateTime);
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
