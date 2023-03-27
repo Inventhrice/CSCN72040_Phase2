@@ -43,7 +43,7 @@ public class BookingPage1 extends Window{
 		
 		Choice provinceChoice = new Choice();
 		provinceChoice.add("Choose province...");
-		
+
 		ArrayList<String> list = new ArrayList<String>();
 		Address tempAddr;
 		
@@ -104,8 +104,6 @@ public class BookingPage1 extends Window{
 			}
 		});
 		bodyPanel.add(compChoice);
-		
-		
 		
 		JButton proceedButton = new JButton("Continue");
 		proceedButton.addActionListener(new ActionListener() {

@@ -2,33 +2,35 @@ package vrmaster_database;
 
 import java.util.ArrayList;
 
-public class Branch extends Company {
+import vrmaster_iterator.Timetable;
+
+public class Branch extends Company{
 	private String companyName;
 	private Address address;
-	private ArrayList<BookingInfo> timetable;
+	private Timetable timetable;
 	
 	public Branch() {
 		companyName = new String("");
 		address = new Address();
-		timetable = new ArrayList<BookingInfo>();
+		timetable = new Timetable();
 	}
 	
 	public Branch(String companyName, Address address) {
 		this.companyName = companyName;
 		this.address = address;
-		timetable = new ArrayList<BookingInfo>();
+		timetable = new Timetable();
 	}
 	
 	public Branch(String companyName, Address address, ArrayList<BookingInfo> timetable) {
 		this.companyName = companyName;
 		this.address = address;
-		this.timetable = timetable;
+		this.timetable.setTimetable(timetable);
 	}
 	
 	public Boolean addBooking(BookingInfo toAdd) {
-		if(timetable.contains(toAdd)) return false;
+		if(timetable.getTimetable().contains(toAdd)) return false;
 		else {
-			timetable.add(toAdd);
+			timetable.addBooking(toAdd);
 			return true;
 		}
 		
@@ -50,11 +52,20 @@ public class Branch extends Company {
 		this.address = address;
 	}
 	
-	public ArrayList<BookingInfo> getTimetable() {
+	public Timetable getTimetable() {
 		return timetable;
 	}
 	
-	public void setTimetable(ArrayList<BookingInfo> timetable) {
-		this.timetable = timetable;
+	public void setTimetable(ArrayList<BookingInfo> newTimetable) {
+		this.timetable.setTimetable(newTimetable);
+	}
+
+	public Branch getDemoBranch()
+	{
+		String companyName = "Ctrl-V";
+		Address address = new Address("212 Victoria Rd S Unit A", "Guelph", "Ontario", "N1E5R1");
+		Timetable timetable = new Timetable().getDemoTimetable();
+		Branch demoBranch = new Branch(companyName, address, timetable.getTimetable());
+		return demoBranch;
 	}
 }

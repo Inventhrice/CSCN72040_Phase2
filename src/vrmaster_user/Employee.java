@@ -3,7 +3,13 @@ package vrmaster_user;
 public class Employee extends User{
 	int id;
 	EmployeeDiscount discount;
-	
+
+	public Employee() {
+		super();
+		this.id = 0;
+		this.discount = new EmployeeDiscount();
+	}
+
 	public Employee(PaymentInfo payment, String email, int id, EmployeeDiscount discount) {
 		super();
 		this.payment = payment;
@@ -48,4 +54,8 @@ public class Employee extends User{
 	public String getEmail() {
 		return this.email;
 	}
+
+    public Employee getDemoEmployee() {
+        return new Employee(new PaymentInfo("1111 2222 3333 4444", 208), "202@VRMaster.ca", 2, new EmployeeDiscount(20));
+    }
 }

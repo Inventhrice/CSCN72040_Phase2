@@ -3,6 +3,8 @@ package vrmaster_gui;
 import java.awt.BorderLayout;
 import java.awt.Choice;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -10,8 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import vrmaster_database.BookingInfo;
+import vrmaster_database.Branch;
 import vrmaster_database.Database;
-import vrmaster_user.PaymentInfo;
+import vrmaster_iterator.Iterator;
 
 import java.awt.Dimension;
 
@@ -41,13 +44,44 @@ public class BookingPage3 extends Window {
 		
 		JLabel chooseDate = new JLabel("Choose date of booking:");
 		bodyPanel.add(chooseDate);
-		
-		Choice timeChoice = new Choice();
-		int timetableSize = db.allBranches.get(branchIndex).getTimetable().size();
-		for(int i = 0; i < timetableSize; i++)
+
+		// This aggregate contains the bookings for the selected branch
+		Iterator branches = db.getBranchAggregate().iterator();
+        Iterator bookings = null;
+        while(branches.hasNext())
+        {
+            bookings = ((Branch)branches.next()).getTimetable().iterator();
+        }
+        
+
+		Choice roomChoice = new Choice();
+		ArrayList<Integer> roomList = new ArrayList<Integer>();
+		while(bookings.hasNext())
 		{
-			timeChoice.add(db.allBranches.get(branchIndex).getTimetable().get(i).getBookingDateTime().toString());
+			BookingInfo currBooking = (BookingInfo) bookings.next();
+			Integer tempRoom = currBooking.getRoom().getId();
+			if(!roomList.contains(tempRoom)) roomList.add(tempRoom);
 		}
+
+		for(int i = 0; i < roomList.size(); i++) roomChoice.add(roomList.get(i).toString());
+		bodyPanel.add(roomChoice);
+
+		// Reset the iterator
+		bookings = db.allBranches.get(branchIndex).getTimetable().iterator();
+
+		Choice timeChoice = new Choice();
+		ArrayList<LocalDateTime> timeList = new ArrayList<LocalDateTime>();
+		while(bookings.hasNext())
+		{
+			int selectedRoom = Integer.parseInt(roomChoice.getSelectedItem());
+			BookingInfo currBooking = (BookingInfo) bookings.next();
+			
+			if(selectedRoom == currBooking.getRoom().getId() && !timeList.contains(currBooking.getBookingDateTime())) 
+				timeList.add(currBooking.getBookingDateTime());
+		}
+
+		for(int i = 0; i < timeList.size(); i++) timeChoice.add(timeList.get(i).toString());
+		bodyPanel.add(timeChoice);
 
 		if(isGroup)
 		{
@@ -60,19 +94,30 @@ public class BookingPage3 extends Window {
 				groupSizeChoice.add(Integer.toString(i));
 			}
 
-			int groupSize = groupSizeChoice.getSelectedIndex();
-		}
+				// Reset the iterator
+				bookings = db.allBranches.get(branchIndex).getTimetable().iterator();
 
-		// for(int i = 9; i <= 16; i++) for(int j = 0; j < 2; j++) timeChoice.add(i + ":" + ((j % 2 == 0) ? "00" : "30")); 
-		// bodyPanel.add(timeChoice);
+			int groupSize = groupSizeChoice.getSelectedIndex();
+			BookingInfo currBooking = (BookingInfo) bookings.next();
+			currBooking.setPrice(groupSize * currBooking.getPrice());
+		}
 		
 		JButton payButton = new JButton("Pay");
 		bodyPanel.add(payButton);
 
+
+
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				BookingInfo choice = db.allBranches.get(branchIndex).getTimetable().get(timeChoice.getSelectedIndex());
+				
+				// Reset the iterator
+				Iterator bookings = db.allBranches.get(branchIndex).getTimetable().iterator();
+
+				BookingInfo choice = new BookingInfo();
+				for(int i = 0; i < branchIndex; i++)
+					if(bookings.hasNext()) choice = (BookingInfo) bookings.next();
+
 				new PaymentInfo_GUI(db, branchIndex, choice);
 			}
 		});
