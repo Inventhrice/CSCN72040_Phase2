@@ -42,16 +42,14 @@ public class BookingPage3 extends Window {
 		
 		bodyPanel.setLayout(new BoxLayout(bodyPanel, BoxLayout.X_AXIS));
 		
-		JLabel chooseDate = new JLabel("Choose date of booking:");
-		bodyPanel.add(chooseDate);
+		JLabel chooseRoomNum = new JLabel("Choose room number:");
+		bodyPanel.add(chooseRoomNum);
 
 		// This aggregate contains the bookings for the selected branch
 		Iterator branches = db.getBranchAggregate().iterator();
-        Iterator bookings = null;
-        while(branches.hasNext())
-        {
-            bookings = ((Branch)branches.next()).getTimetable().iterator();
-        }
+		for(int i=0;i<branchIndex-1;i++) branches.next();
+		Branch thisBranch = (Branch)branches.next();
+		Iterator bookings = thisBranch.getTimetable().iterator();
         
 
 		Choice roomChoice = new Choice();
@@ -67,8 +65,11 @@ public class BookingPage3 extends Window {
 		bodyPanel.add(roomChoice);
 
 		// Reset the iterator
-		bookings = db.allBranches.get(branchIndex).getTimetable().iterator();
-
+		bookings = thisBranch.getTimetable().iterator();
+		
+		JLabel chooseDate = new JLabel("Choose date of booking:");
+		bodyPanel.add(chooseDate);
+		
 		Choice timeChoice = new Choice();
 		ArrayList<LocalDateTime> timeList = new ArrayList<LocalDateTime>();
 		while(bookings.hasNext())
@@ -82,7 +83,7 @@ public class BookingPage3 extends Window {
 
 		for(int i = 0; i < timeList.size(); i++) timeChoice.add(timeList.get(i).toString());
 		bodyPanel.add(timeChoice);
-
+		
 		if(isGroup)
 		{
 			JLabel chooseGroupSize = new JLabel("Choose group size:");
@@ -90,34 +91,35 @@ public class BookingPage3 extends Window {
 
 			Choice groupSizeChoice = new Choice();
 			for(int i = 0; i < MAX_GROUP_SIZE; i ++)
-			{
 				groupSizeChoice.add(Integer.toString(i));
-			}
-
-				// Reset the iterator
-				bookings = db.allBranches.get(branchIndex).getTimetable().iterator();
-
-			int groupSize = groupSizeChoice.getSelectedIndex();
-			BookingInfo currBooking = (BookingInfo) bookings.next();
-			currBooking.setPrice(groupSize * currBooking.getPrice());
+			bodyPanel.add(groupSizeChoice);
 		}
 		
 		JButton payButton = new JButton("Pay");
 		bodyPanel.add(payButton);
-
-
 
 		payButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				
 				// Reset the iterator
-				Iterator bookings = db.allBranches.get(branchIndex).getTimetable().iterator();
-
-				BookingInfo choice = new BookingInfo();
-				for(int i = 0; i < branchIndex; i++)
-					if(bookings.hasNext()) choice = (BookingInfo) bookings.next();
-
+				Iterator bookings = thisBranch.getTimetable().iterator();
+				
+				
+				BookingInfo choice = (BookingInfo)bookings.next();
+				while(bookings.hasNext() 
+						&& choice.getRoom().getId() != Integer.parseInt(roomChoice.getSelectedItem())
+						&& choice.getBookingDateTime() != LocalDateTime.parse(timeChoice.getSelectedItem())) {
+					choice = (BookingInfo)bookings.next();
+				}
+				
+				if(isGroup) {
+					//sets choice price to be the number of people * default is price per one person. Have to do it in this way because 
+					//this function cannot view anything out of this scope unless it is a global variable.
+					choice.setPrice(Integer.parseInt(((Choice)(bodyPanel.getComponent(5))).getSelectedItem()) * choice.getPrice());
+					//to whatever god is listening, i am sorry
+				}
+				
 				new PaymentInfo_GUI(db, branchIndex, choice);
 			}
 		});

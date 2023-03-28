@@ -1,28 +1,20 @@
 package vrmaster_gui;
 
-import vrmaster_user.*;
-
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import vrmaster_database.BookingInfo;
 import vrmaster_database.Database;
-import vrmaster_station.Command;
-import vrmaster_station.PartyRoom;
-import vrmaster_station.PartyRoomBookCommand;
-import vrmaster_station.Station;
-import vrmaster_station.StationBookCommand;
+import vrmaster_station.*;
+import vrmaster_user.Customer;
+import vrmaster_user.Employee;
 import vrmaster_user.PaymentInfo;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.Checkbox;
 
 public class PaymentInfo_GUI extends Window {
 
