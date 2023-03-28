@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.ibm.icu.text.Edits.Iterator;
+
 import vrmaster_database.Address;
 import vrmaster_database.Branch;
 import vrmaster_database.Database;
@@ -43,12 +45,13 @@ public class BookingPage1 extends Window{
 		
 		Choice provinceChoice = new Choice();
 		provinceChoice.add("Choose province...");
-
+		
+		vrmaster_iterator.Iterator branchIterator = db.getBranchAggregate().iterator();
 		ArrayList<String> list = new ArrayList<String>();
 		Address tempAddr;
 		
-		for(int i = 0; i < db.allBranches.size(); i++) {
-			tempAddr = db.allBranches.get(i).getAddress();
+		while(branchIterator.hasNext()) {
+			tempAddr = ((Branch) branchIterator.next()).getAddress();
 			if(!list.contains(tempAddr.getProvince()))list.add(tempAddr.getProvince());
 		}
 		
@@ -59,19 +62,21 @@ public class BookingPage1 extends Window{
 		JLabel chooseCity = new JLabel("Choose your city: ");
 		bodyPanel.add(chooseCity);
 		
+		
 		Choice cityChoice = new Choice();
 		provinceChoice.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+				vrmaster_iterator.Iterator branchIterator = db.getBranchAggregate().iterator();
 				Address tempAddr;
 				cityChoice.removeAll();
-				for(int i = 0; i < db.allBranches.size(); i++) {
-					tempAddr = db.allBranches.get(i).getAddress();
+				
+				while(branchIterator.hasNext()) {
+					tempAddr = ((Branch) branchIterator.next()).getAddress();
 					if(tempAddr.getProvince() == provinceChoice.getSelectedItem()) {
 						if(!list.contains(tempAddr.getCity())) list.add(tempAddr.getCity()); 
 					}
 				}
-				
 				cityChoice.add("Choose city...");
 				for(int i = 0; i<list.size();i++)cityChoice.add(list.get(i));
 			}
@@ -89,9 +94,11 @@ public class BookingPage1 extends Window{
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				compChoice.removeAll();
+				vrmaster_iterator.Iterator branchIterator = db.getBranchAggregate().iterator();
 				Branch tempBranch;
-				for(int i = 0; i < db.allBranches.size(); i++) {
-					tempBranch = db.allBranches.get(i); 
+				
+				while(branchIterator.hasNext()) {
+					tempBranch = (Branch) branchIterator.next(); 
 					
 					if(tempBranch.getAddress().getProvince() == provinceChoice.getSelectedItem() && 
 							tempBranch.getAddress().getCity() == cityChoice.getSelectedItem()) {
@@ -109,18 +116,18 @@ public class BookingPage1 extends Window{
 		proceedButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean found = false;
-				int i = 0;
+				int branchIndex = 0;
+				vrmaster_iterator.Iterator branchIterator = db.getBranchAggregate().iterator();
 				Branch tempBranch;
-				while(i < db.allBranches.size() && !found) {
-					tempBranch = db.allBranches.get(i);
+				while(branchIterator.hasNext()) {
+					tempBranch = (Branch) branchIterator.next();
 					found =  tempBranch.getAddress().getProvince() == provinceChoice.getSelectedItem()
 							&& tempBranch.getAddress().getCity() == cityChoice.getSelectedItem()
 							&& tempBranch.getCompanyName() == compChoice.getSelectedItem(); 
-					if(!found) i++;
+					if(!found) branchIndex++;
 				}
-				System.out.println(i);
 				frame.setVisible(false);
-				new BookingPage2(db, i);
+				new BookingPage2(db, branchIndex);
 			}
 		});
 		bodyPanel.add(proceedButton);
