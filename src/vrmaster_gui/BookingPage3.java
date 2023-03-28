@@ -46,10 +46,10 @@ public class BookingPage3 extends Window {
 		bodyPanel.add(chooseRoomNum);
 
 		// This aggregate contains the bookings for the selected branch
-		Iterator branches = db.getBranchAggregate().iterator();
+		vrmaster_iterator.Iterator branches = db.getBranchAggregate().iterator();
 		for(int i=0;i<branchIndex-1;i++) branches.next();
 		Branch thisBranch = (Branch)branches.next();
-		Iterator bookings = thisBranch.getTimetable().iterator();
+		vrmaster_iterator.Iterator bookings = thisBranch.getTimetable().iterator();
         
 
 		Choice roomChoice = new Choice();
@@ -103,7 +103,7 @@ public class BookingPage3 extends Window {
 				frame.setVisible(false);
 				
 				// Reset the iterator
-				Iterator bookings = thisBranch.getTimetable().iterator();
+				vrmaster_iterator.Iterator bookings = thisBranch.getTimetable().iterator();
 				
 				
 				BookingInfo choice = (BookingInfo)bookings.next();

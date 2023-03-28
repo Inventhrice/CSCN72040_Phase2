@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import vrmaster_database.BookingInfo;
 import vrmaster_database.Database;
+import vrmaster_iterator.Iterator;
 import vrmaster_station.*;
 import vrmaster_user.Customer;
 import vrmaster_user.Employee;
@@ -57,7 +58,6 @@ public class PaymentInfo_GUI extends Window {
 		JTextField SecField = new JTextField("111");
 		bodyPanel.add(SecField);
 		
-		Employee employee = null;
 		JLabel enterEmployeeNum = new JLabel("Enter your employee number (-1 if you are not an employee):");
 		bodyPanel.add(enterEmployeeNum);
 		JTextField empNum = new JTextField("00");
@@ -66,10 +66,12 @@ public class PaymentInfo_GUI extends Window {
 		employeeID = Integer.parseInt(SecField.getText().substring(0, 2));
 		
 		if(employeeID != -1) {
+			vrmaster_iterator.Iterator emplIterator = db.getEmployeeAggregate().iterator();
 			boolean found = false;
-			for(int i = 0; i < db.allVRMasterEmployees.size() && !found; i++) {
-				employee = db.allVRMasterEmployees.get(i);
-				found = employee.getId() == employeeID;
+			Employee employee = null;
+			while(emplIterator.hasNext() && !found) {
+				employee = ((Employee)(emplIterator.next()));
+				found = employeeID == employee.getId();
 			}
 			if(!found) employeeID = -1;
 		}
