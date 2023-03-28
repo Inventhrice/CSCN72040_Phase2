@@ -55,7 +55,7 @@ public class Employee extends User{
 		return this.email;
 	}
 
-    public Employee getDemoEmployee() {
-        return new Employee(new PaymentInfo("1111 2222 3333 4444", 208), "202@VRMaster.ca", 2, new EmployeeDiscount(20));
+    public static Employee getDemoEmployee() {
+        return new Employee(new PaymentInfo("1111 2222 3333 4444", 208), "202@VRMaster.ca", 2, new EmployeeDiscount(0.2));
     }
 }

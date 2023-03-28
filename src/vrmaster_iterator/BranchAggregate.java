@@ -26,7 +26,11 @@ public class BranchAggregate implements Aggregate{
             else return null;
         }
     }
-
+    
+    public BranchAggregate() {
+    	branches = new ArrayList<Branch>();
+    }
+    
     @Override
     public Iterator iterator() {
         return new BranchIterator(this);
@@ -44,10 +48,9 @@ public class BranchAggregate implements Aggregate{
         branches.add(toAdd);
     }
 
-    public BranchAggregate getDemoBranchAggregate() {
+    public static BranchAggregate getDemoBranchAggregate() {
         BranchAggregate demoBranchAggregate = new BranchAggregate();
-        Branch demoBranch = new Branch().getDemoBranch();
-        demoBranchAggregate.addBranch(demoBranch);
+        demoBranchAggregate.addBranch(Branch.getDemoBranch());
         return demoBranchAggregate;
     }
 }

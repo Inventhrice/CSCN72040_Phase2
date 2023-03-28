@@ -55,7 +55,7 @@ public class Timetable implements Aggregate
         timetable.add(toAdd);
     }
 
-    public Timetable getDemoTimetable() {
+    public static ArrayList<BookingInfo> getDemoTimetable() {
 		
 		ArrayList<BookingInfo> bookingList = new ArrayList<BookingInfo>();
 		BookingInfo temp;
@@ -67,13 +67,12 @@ public class Timetable implements Aggregate
 				temp = new BookingInfo();
 				temp.setBookingDateTime(LocalDateTime.of(2023, 3, 31, hour, 0));
 				temp.setRoom(stationtemp);
-				
+				temp.setPrice(15);
 				bookingList.add(temp);
 			}
 		}
-
-		Timetable newTimetable = new Timetable();
-        newTimetable.setTimetable(bookingList);
-		return newTimetable;
+		
+		
+		return bookingList;
 	}
 }

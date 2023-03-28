@@ -26,7 +26,11 @@ public class EmployeeAggregate implements Aggregate {
             else return null;
         }
     }
-
+    
+    public EmployeeAggregate() {
+    	employees = new ArrayList<Employee>();
+    }
+    
     @Override
     public Iterator iterator() {
         return new EmployeeIterator(this);
@@ -44,10 +48,9 @@ public class EmployeeAggregate implements Aggregate {
         employees.add(toAdd);
     }
 
-    public EmployeeAggregate getDemoEmployeeAggregate() {
+    public static EmployeeAggregate getDemoEmployeeAggregate() {
         EmployeeAggregate demoEmployeeAggregate = new EmployeeAggregate();
-        Employee demoEmployee = new Employee().getDemoEmployee();
-        demoEmployeeAggregate.addEmployee(demoEmployee);
+        demoEmployeeAggregate.addEmployee(Employee.getDemoEmployee());
         return demoEmployeeAggregate;
     }
 }

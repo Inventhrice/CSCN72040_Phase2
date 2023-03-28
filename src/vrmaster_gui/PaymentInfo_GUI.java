@@ -1,9 +1,13 @@
 package vrmaster_gui;
 
 import java.awt.BorderLayout;
+import java.awt.Checkbox;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,7 +22,7 @@ import vrmaster_user.Employee;
 import vrmaster_user.PaymentInfo;
 
 public class PaymentInfo_GUI extends Window {
-
+	
 	/**
 	 * Create the application.
 	 */
@@ -37,7 +41,7 @@ public class PaymentInfo_GUI extends Window {
 	 */
 	private void initialize(Database db, int branchIndex, BookingInfo order) {
 		JPanel bodyPanel = new JPanel();
-		int employeeID = -1;
+		
 		frame.getContentPane().add(bodyPanel, BorderLayout.CENTER);
 		bodyPanel.setLayout(new BoxLayout(bodyPanel, BoxLayout.Y_AXIS));
 		
@@ -63,47 +67,62 @@ public class PaymentInfo_GUI extends Window {
 		JTextField empNum = new JTextField("00");
 		bodyPanel.add(empNum);
 		
-		employeeID = Integer.parseInt(SecField.getText().substring(0, 2));
-		
-		if(employeeID != -1) {
-			vrmaster_iterator.Iterator emplIterator = db.getEmployeeAggregate().iterator();
-			boolean found = false;
-			Employee employee = null;
-			while(emplIterator.hasNext() && !found) {
-				employee = ((Employee)(emplIterator.next()));
-				found = employeeID == employee.getId();
-			}
-			if(!found) employeeID = -1;
-		}
-		
-		bodyPanel.add(new JLabel("Subtotal:\t $" + order.getPrice()));
-		if(employeeID != -1) {
-			bodyPanel.add(new JLabel("Discount:\t-$" +  (order.getPrice() - employee.getDiscount().applyDiscount(order.getPrice()))));
-			order.setPrice(employee.getDiscount().applyDiscount(order.getPrice()));
-		}
-		bodyPanel.add(new JLabel("Total:\t $" + order.getPrice()));
-				
-		JButton proceedButton = new JButton("Continue");
-		proceedButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String ccString = "";
-				int secNum;
-				
-				if(CCField.getText().substring(0, 16).replaceAll("\\d", "") == "") ccString = CCField.getText().substring(0, 16);
-				secNum = Integer.parseInt(SecField.getText().substring(0, 3));
-				
-				PaymentInfo payment = new PaymentInfo(ccString, secNum);
-				Customer u = new Customer(payment, emailField.getText());
-				
-				if(u.pay()) {
-					Command bookCommand;
-					if(order.getRoom() instanceof Station) bookCommand = new StationBookCommand((Station)order.getRoom());
-					else bookCommand = new PartyRoomBookCommand((PartyRoom)order.getRoom());
-					bookCommand.execute();
+		Checkbox button = new Checkbox("Show Total");
+		button.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(button.getState()) {
+					int employeeID = -1;
+					Employee employee = null;
+					employeeID = Integer.parseInt(empNum.getText().substring(0, 2));
+					
+					if(employeeID != -1) {
+						vrmaster_iterator.Iterator emplIterator = db.getEmployeeAggregate().iterator();
+						boolean found = false;
+						
+						while(emplIterator.hasNext() && !found) {
+							employee = ((Employee)(emplIterator.next()));
+							found = employeeID == employee.getId();
+						}
+						if(!found) employeeID = -1;
+					}
+					
+					bodyPanel.add(new JLabel("Subtotal:\t $" + order.getPrice()));
+					
+					if(employeeID != -1) {
+						bodyPanel.add(new JLabel("Discount:\t-$" +  (order.getPrice() - employee.getDiscount().applyDiscount(order.getPrice()))));
+						order.setPrice(employee.getDiscount().applyDiscount(order.getPrice()));
+					}
+					
+					bodyPanel.add(new JLabel("Total:\t $" + order.getPrice()));
+							
+					JButton proceedButton = new JButton("Continue");
+					proceedButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							String ccString = "";
+							int secNum;
+							
+							if(CCField.getText().substring(0, 16).replaceAll("\\d", "") == "") ccString = CCField.getText().substring(0, 16);
+							secNum = Integer.parseInt(SecField.getText().substring(0, 3));
+							
+							PaymentInfo payment = new PaymentInfo(ccString, secNum);
+							Customer u = new Customer(payment, emailField.getText());
+							
+							if(u.pay()) {
+								Command bookCommand;
+								if(order.getRoom() instanceof Station) bookCommand = new StationBookCommand((Station)order.getRoom());
+								else bookCommand = new PartyRoomBookCommand((PartyRoom)order.getRoom());
+								bookCommand.execute();
+								
+								frame.setVisible(false);
+								new Homepage(db);
+							}
+						}
+					});
+					bodyPanel.add(proceedButton);
 				}
-				
 			}
-		});
-		bodyPanel.add(proceedButton);
+		});		
+		bodyPanel.add(button);
 	}
 }

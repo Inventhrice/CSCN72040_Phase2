@@ -12,8 +12,8 @@ public class Database {
 		this.employeeAggregate = employeeAggregate;
 	}
 	public Database() {
-		this.branchAggregate = new BranchAggregate();
-		this.employeeAggregate = new EmployeeAggregate();
+		this.branchAggregate = BranchAggregate.getDemoBranchAggregate();
+		this.employeeAggregate = EmployeeAggregate.getDemoEmployeeAggregate();
 	}
 
 	public BranchAggregate getBranchAggregate() {

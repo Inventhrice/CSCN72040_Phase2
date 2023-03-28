@@ -22,6 +22,7 @@ public class Branch extends Company{
 	}
 	
 	public Branch(String companyName, Address address, ArrayList<BookingInfo> timetable) {
+		this.timetable = new Timetable();
 		this.companyName = companyName;
 		this.address = address;
 		this.timetable.setTimetable(timetable);
@@ -60,12 +61,10 @@ public class Branch extends Company{
 		this.timetable.setTimetable(newTimetable);
 	}
 
-	public Branch getDemoBranch()
+	public static Branch getDemoBranch()
 	{
 		String companyName = "Ctrl-V";
 		Address address = new Address("212 Victoria Rd S Unit A", "Guelph", "Ontario", "N1E5R1");
-		Timetable timetable = new Timetable().getDemoTimetable();
-		Branch demoBranch = new Branch(companyName, address, timetable.getTimetable());
-		return demoBranch;
+		return new Branch(companyName, address, Timetable.getDemoTimetable());
 	}
 }
