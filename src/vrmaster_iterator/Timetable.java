@@ -1,12 +1,13 @@
 package vrmaster_iterator;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import vrmaster_database.BookingInfo;
 import vrmaster_station.Station;
 
-public class Timetable implements Aggregate
+public class Timetable implements Aggregate, Serializable
 {
     private ArrayList<BookingInfo> timetable;
     

@@ -1,10 +1,9 @@
 package vrmaster_database;
 
 import java.util.ArrayList;
-
 import vrmaster_iterator.Timetable;
 
-public class Branch extends Company{
+public class Branch extends Company {
 	private String companyName;
 	private Address address;
 	private Timetable timetable;

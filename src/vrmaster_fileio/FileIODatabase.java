@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import vrmaster_database.Database;
 
 public class FileIODatabase implements FileIO <Database> {
-    String filename;
+    final String filename = "database_data.txt";
 
     @Override
     public void writeToFile(Database toWrite) throws IOException {
@@ -24,7 +24,7 @@ public class FileIODatabase implements FileIO <Database> {
 
     @Override
     public Database readFromFile() {
-        Database database = new Database();
+        Database database = null;
 
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename)))
         {
@@ -38,13 +38,5 @@ public class FileIODatabase implements FileIO <Database> {
         }
 
         return database;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
     }
 }

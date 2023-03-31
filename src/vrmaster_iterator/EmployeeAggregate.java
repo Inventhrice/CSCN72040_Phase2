@@ -1,10 +1,11 @@
 package vrmaster_iterator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import vrmaster_user.Employee;
 
-public class EmployeeAggregate implements Aggregate {
+public class EmployeeAggregate implements Aggregate, Serializable {
     private ArrayList<Employee> employees;
 
     private class EmployeeIterator implements Iterator {

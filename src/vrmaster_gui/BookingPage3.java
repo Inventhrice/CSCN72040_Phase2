@@ -14,8 +14,6 @@ import javax.swing.JPanel;
 import vrmaster_database.BookingInfo;
 import vrmaster_database.Branch;
 import vrmaster_database.Database;
-import vrmaster_iterator.Iterator;
-
 import java.awt.Dimension;
 
 public class BookingPage3 extends Window {
@@ -77,7 +75,7 @@ public class BookingPage3 extends Window {
 			int selectedRoom = Integer.parseInt(roomChoice.getSelectedItem());
 			BookingInfo currBooking = (BookingInfo) bookings.next();
 			
-			if(selectedRoom == currBooking.getRoom().getId() && !timeList.contains(currBooking.getBookingDateTime())) 
+			if(selectedRoom == currBooking.getRoom().getId() && !timeList.contains(currBooking.getBookingDateTime()) && currBooking.getRoom().getAvailability()) 
 				timeList.add(currBooking.getBookingDateTime());
 		}
 

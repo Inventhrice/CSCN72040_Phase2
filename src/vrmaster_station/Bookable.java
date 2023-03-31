@@ -1,6 +1,8 @@
 package vrmaster_station;
 
-public abstract class Bookable 
+import java.io.Serializable;
+
+public abstract class Bookable implements Serializable
 {
     protected int id;
     protected boolean available;

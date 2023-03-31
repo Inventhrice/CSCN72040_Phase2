@@ -1,6 +1,8 @@
 package vrmaster_user;
 
-public class PaymentInfo {
+import java.io.Serializable;
+
+public class PaymentInfo implements Serializable {
 	private String cardNum;
 	private int securityCode;
 	

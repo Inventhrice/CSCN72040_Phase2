@@ -1,10 +1,11 @@
 package vrmaster_database;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import vrmaster_station.Bookable;
 import vrmaster_user.User;
 
-public class BookingInfo{
+public class BookingInfo implements Serializable{
 	private double price;
 	private LocalDateTime bookingDateTime;
 	private Bookable room;

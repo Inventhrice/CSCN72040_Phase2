@@ -1,6 +1,8 @@
 package vrmaster_user;
 
-public class EmployeeDiscount implements Discount{
+import java.io.Serializable;
+
+public class EmployeeDiscount implements Discount, Serializable{
 	double discount;
 
 	public EmployeeDiscount() {

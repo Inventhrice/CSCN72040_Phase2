@@ -1,5 +1,8 @@
 package vrmaster_database;
-public class Address {
+
+import java.io.Serializable;
+
+public class Address implements Serializable{
 	private String streetAddress;
 	private String province;
 	private String zipCode;

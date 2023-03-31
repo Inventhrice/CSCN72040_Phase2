@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.ibm.icu.text.Edits.Iterator;
-
 import vrmaster_database.Address;
 import vrmaster_database.Branch;
 import vrmaster_database.Database;

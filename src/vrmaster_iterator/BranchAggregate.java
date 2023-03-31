@@ -1,10 +1,11 @@
 package vrmaster_iterator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import vrmaster_database.Branch;
 
-public class BranchAggregate implements Aggregate{
+public class BranchAggregate implements Aggregate, Serializable{
     private ArrayList<Branch> branches;
 
     private class BranchIterator implements Iterator {

@@ -1,6 +1,8 @@
 package vrmaster_user;
 
-public class Employee extends User{
+import java.io.Serializable;
+
+public class Employee extends User implements Serializable{
 	int id;
 	EmployeeDiscount discount;
 
